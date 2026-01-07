@@ -5,7 +5,7 @@ class Bsh < Formula
   desc "Basic Hacker Tools - Network information gathering tools"
   homepage "https://github.com/codingsushi79/bsh"
   url "https://github.com/codingsushi79/bsh.git",
-      revision: "8390d20a1e759eb85b3322196e55fc5b7353d8ff"
+      revision: "3462ed78e9f785c1fee38e2815d848b0bad97a27"
   version "1.0.0"
   license "MIT"
 
