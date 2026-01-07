@@ -1,170 +1,179 @@
-# Autotype Homebrew Formula
+# BSH - Basic Hacker Tools
 
-This is a Homebrew formula for [hackertyper](https://github.com/scottjbarr/hackertyper), a CLI tool that simulates the effect of typing code like in movies where hackers are shown furiously typing.
+A collection of safe, read-only network information gathering tools. These tools allow you to view network data, scan for devices, and gather information about your network environment. **These tools do not perform any hacking, exploitation, or unauthorized access attempts** - they only display publicly available network information.
+
+## Features
+
+- **Network Interfaces**: View all network interfaces and their configurations
+- **IP Information**: Get detailed IP address information (local and remote)
+- **Device Scanner**: Discover devices on your local network
+- **Port Scanner**: Check which ports are open on a host (read-only)
 
 ## Installation
 
-To install autotype using this formula:
+### Option 1: Direct Usage
+
+Clone this repository and run directly:
 
 ```bash
-brew install /path/to/autotype.rb
+git clone <repository-url>
+cd autotype
+./bsh.rb help
 ```
 
-Or if you've added this to a tap:
+### Option 2: Install as Gem (if packaged)
 
 ```bash
-brew install <tap-name>/autotype
+gem install bsh
 ```
 
 ## Usage
 
-Once installed, you can run autotype:
+### View Network Interfaces
+
+Show all network interfaces and their IP addresses:
 
 ```bash
-autotype
+bsh interfaces
+# or
+bsh if
 ```
 
-The program will display simulated code as you type. You can adjust the typing speed with the `--delay` flag:
+### Get IP Information
+
+View local IP information:
 
 ```bash
-autotype --delay 50  # 50ms delay per character
+bsh ip
 ```
 
-## How it works
-
-Autotype reads text from stdin and displays it character by character with configurable delays, simulating the effect of someone typing slowly. It's perfect for creating the illusion of being a meticulous coder in presentations, videos, or demonstrations.
-
-For the classic "hacker" effect, pipe code or text files to it:
+View information about a remote IP or hostname:
 
 ```bash
-cat your_code.py | autotype --delay 50
+bsh ip 8.8.8.8
+bsh ip google.com
 ```
 
-This will display the content as if being typed character by character.
+### Scan Network for Devices
 
-## Building from source
-
-This formula builds hackertyper from the GitHub repository using Go. It requires Go 1.18+ to build.
-
-## Publishing to Homebrew
-
-To publish this formula to Homebrew, you have several options:
-
-### Option 1: Create a Homebrew Tap (Recommended)
-
-A tap is a GitHub repository containing Homebrew formulae. This is the easiest way to share your formula.
-
-1. **Create a new GitHub repository** named `homebrew-<your-tap-name>` (e.g., `homebrew-autotype` or `homebrew-tools`)
-   - The repository name must start with `homebrew-`
-   - Make it public
-
-2. **Add the formula to your tap:**
-   ```bash
-   # Clone your tap repository
-   git clone https://github.com/<your-username>/homebrew-<tap-name>.git
-   cd homebrew-<tap-name>
-   
-   # Copy your formula (must be in a Formula/ subdirectory)
-   mkdir -p Formula
-   cp /path/to/autotype.rb Formula/autotype.rb
-   
-   # Commit and push
-   git add Formula/autotype.rb
-   git commit -m "Add autotype formula"
-   git push origin main
-   ```
-
-3. **Install from your tap:**
-   ```bash
-   brew tap <your-username>/<tap-name>
-   brew install autotype
-   ```
-
-### Option 2: Submit to Homebrew Core
-
-If you want to add this to the official Homebrew core repository:
-
-1. **Fork the Homebrew repository:**
-   ```bash
-   git clone https://github.com/Homebrew/homebrew-core.git
-   cd homebrew-core
-   ```
-
-2. **Add your formula:**
-   ```bash
-   cp /path/to/autotype.rb Formula/autotype.rb
-   ```
-
-3. **Test your formula:**
-   ```bash
-   brew install --build-from-source Formula/autotype.rb
-   brew audit --strict Formula/autotype.rb
-   brew test Formula/autotype.rb
-   ```
-
-4. **Commit and create a pull request:**
-   ```bash
-   git checkout -b add-autotype-formula
-   git add Formula/autotype.rb
-   git commit -m "autotype: add formula"
-   git push origin add-autotype-formula
-   ```
-   Then create a PR on GitHub.
-
-5. **Requirements for Homebrew Core:**
-   - The upstream project must be actively maintained
-   - The project should have at least 75 GitHub stars (or equivalent popularity)
-   - The formula must pass all audits
-   - The project should be useful to a significant number of users
-   - See [Homebrew's Acceptable Formulae](https://docs.brew.sh/Acceptable-Formulae) for full requirements
-
-### Option 3: Install from a URL
-
-Users can install directly from a GitHub repository:
+Scan your local network for devices:
 
 ```bash
-brew install <your-username>/<repo-name>/autotype.rb
+bsh scan
 ```
 
-Or from a raw GitHub URL:
+Scan a specific network range:
 
 ```bash
-brew install https://raw.githubusercontent.com/<your-username>/<repo-name>/main/autotype.rb
+bsh scan 192.168.1.0/24
+bsh scan 10.0.0.0/24
 ```
 
-### Testing Your Formula
+### Scan Ports
 
-Before publishing, always test your formula:
+Scan common ports on localhost:
 
 ```bash
-# Install from local file
-brew install --build-from-source /path/to/autotype.rb
-
-# Run audits
-brew audit --strict /path/to/autotype.rb
-
-# Test the formula
-brew test /path/to/autotype.rb
-
-# Uninstall to test fresh install
-brew uninstall autotype
+bsh ports localhost
 ```
 
-### Updating the Formula
+Scan specific ports on a host:
 
-When you need to update the formula (e.g., new version):
+```bash
+bsh ports 192.168.1.1 22 80 443
+bsh ports google.com 80 443
+```
 
-1. Update the `version` and `revision` (or `tag`) in `autotype.rb`
-2. Test the updated formula
-3. Commit and push the changes to your tap or submit a PR to Homebrew core
+## Commands
 
-### Formula Best Practices
+| Command | Description |
+|---------|-------------|
+| `interfaces`, `if` | Show network interfaces and their information |
+| `ip [target]` | Show IP address information (default: local) |
+| `scan [network]` | Scan network for devices (default: local network) |
+| `ports [host] [ports...]` | Scan ports on a host (default: localhost, common ports) |
+| `help` | Show help message |
 
-- Keep the formula simple and maintainable
-- Use stable URLs (tags/releases) when possible, not `HEAD`
-- Include proper test blocks
-- Follow Homebrew's style guide
-- Keep dependencies minimal
-- Document any special requirements
+## Examples
 
-For more information, see the [Homebrew Formula Cookbook](https://docs.brew.sh/Formula-Cookbook).
+```bash
+# View all network interfaces
+bsh interfaces
+
+# Get your local IP information
+bsh ip
+
+# Get information about Google's DNS
+bsh ip 8.8.8.8
+
+# Scan your local network for devices
+bsh scan
+
+# Scan a specific network
+bsh scan 192.168.0.0/24
+
+# Check if common ports are open on localhost
+bsh ports localhost
+
+# Check specific ports on a remote host
+bsh ports 192.168.1.1 22 80 443 8080
+```
+
+## Safety & Ethics
+
+**Important**: These tools are designed for:
+
+- ✅ Network administration and troubleshooting
+- ✅ Learning about network protocols
+- ✅ Security auditing of your own networks
+- ✅ Educational purposes
+
+**Do NOT use these tools for**:
+
+- ❌ Unauthorized network scanning
+- ❌ Accessing systems without permission
+- ❌ Any illegal activities
+
+Always ensure you have permission before scanning networks or systems that you don't own or manage.
+
+## Requirements
+
+- Ruby 2.7+ (uses standard library, no external dependencies)
+- macOS or Linux (uses system commands for some features)
+
+## How It Works
+
+### Network Interfaces
+Uses Ruby's `Socket.getifaddrs` to enumerate all network interfaces and display their IP addresses, netmasks, and flags.
+
+### IP Information
+- Uses `Resolv` for DNS lookups
+- Uses `Socket` for network operations
+- Performs basic reachability tests (ping)
+
+### Device Scanner
+- Detects your local network automatically
+- Uses ping to check if hosts are alive
+- Queries ARP table for MAC addresses
+- Performs reverse DNS lookups for hostnames
+
+### Port Scanner
+- Attempts TCP connections to specified ports
+- Uses timeouts to avoid hanging
+- Only checks if ports are open/closed (does not send exploit payloads)
+- Displays common service names for well-known ports
+
+## Limitations
+
+- Port scanning is limited to TCP connections
+- Device scanning may be slow on large networks (limited to 256 hosts per scan)
+- Some features require appropriate system permissions
+- MAC address detection depends on ARP table entries
+
+## License
+
+MIT License - See LICENSE file for details
+
+## Contributing
+
+Contributions welcome! Please ensure any new features maintain the read-only, information-gathering nature of the tool.
