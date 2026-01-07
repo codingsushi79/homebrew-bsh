@@ -22,6 +22,8 @@ require 'bsh/network_info'
 require 'bsh/ip_info'
 require 'bsh/device_scanner'
 require 'bsh/port_scanner'
+require 'bsh/device_info'
+require 'bsh/user_enum'
 
 Bsh::CLI.start(ARGV)
 
