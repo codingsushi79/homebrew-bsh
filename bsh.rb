@@ -2,7 +2,8 @@
 # frozen_string_literal: true
 
 # Find lib directory - works in both development and Homebrew installation
-script_path = File.expand_path(__FILE__)
+# Use realpath to resolve symlinks (important for Homebrew installations)
+script_path = File.realpath(__FILE__)
 script_dir = File.dirname(script_path)
 
 # Try Homebrew installation path first (libexec/lib)
