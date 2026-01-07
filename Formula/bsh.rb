@@ -24,4 +24,3 @@ class Bsh < Formula
     assert_match "BSH - Basic Hacker Tools", shell_output("#{bin}/bsh help")
   end
 end
-
