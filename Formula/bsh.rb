@@ -13,6 +13,9 @@ class Bsh < Formula
     # Install the main script
     bin.install "bsh.rb" => "bsh"
     
+    # Fix path resolution for symlink support (File.realpath instead of File.expand_path)
+    inreplace bin/"bsh", "File.expand_path(__FILE__)", "File.realpath(__FILE__)"
+    
     # Install the library files to libexec (private directory)
     # The script will find them via $LOAD_PATH
     libexec.install Dir["lib"]
