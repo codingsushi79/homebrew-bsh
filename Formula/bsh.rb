@@ -5,15 +5,11 @@ class Bsh < Formula
   desc "Basic Hacker Tools - Network information gathering tools"
   homepage "https://github.com/codingsushi79/bsh"
   url "https://github.com/codingsushi79/bsh.git",
-      revision: "HEAD"
+      revision: "69873ac35efbd43a55363ef1435c4bcbf4d4feaf"
   version "1.0.0"
   license "MIT"
 
   def install
-    # Fix path resolution for symlink support (File.realpath instead of File.expand_path)
-    # This must be done before installation
-    inreplace "bsh.rb", "File.expand_path(__FILE__)", "File.realpath(__FILE__)"
-    
     # Install the main script
     bin.install "bsh.rb" => "bsh"
     
